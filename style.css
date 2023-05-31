@@ -1,0 +1,38 @@
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.overlay-footer {
+  position: absolute;
+  inset: auto 0 0 0;
+}
+
+.a-dom-overlay button {
+  padding: 1em;
+  appearance: none;
+  background: #00000055;
+  border: 3px solid white;
+  border-radius: 1em;
+  margin: 1em 1em 0 0;
+  color: white;
+}
+
+#my-interface {
+  user-select: none;
+}
+
+#my-interface h2 {
+  margin: 0;
+}
+
+#my-interface fieldset {
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+
+#dom-overlay-message {
+  padding: 1em;
+  background: #33333355;
+  border-top: 5px solid #ffffff55;
+  color: white;
+}
