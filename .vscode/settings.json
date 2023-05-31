@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-    "liveServer.settings.port": 5501
-}
-=======
     "liveServer.settings.port": 5501,
     "liveServer.settings.root": "/",
     "liveServer.settings.CustomBrowser": "chrome",
@@ -13,4 +9,3 @@
       "passphrase": "12345"
     }
   }
->>>>>>> e3bb8ae (patch aframe inspector using https)
