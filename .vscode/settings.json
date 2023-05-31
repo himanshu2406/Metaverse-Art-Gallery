@@ -1,3 +1,16 @@
 {
+<<<<<<< HEAD
     "liveServer.settings.port": 5501
 }
+=======
+    "liveServer.settings.port": 5501,
+    "liveServer.settings.root": "/",
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.https": {
+      "enable": true,
+      "cert": "C://localhost.pem",
+      "key": "C://localhost.key",
+      "passphrase": "12345"
+    }
+  }
+>>>>>>> e3bb8ae (patch aframe inspector using https)
