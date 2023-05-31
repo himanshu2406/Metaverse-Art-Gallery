@@ -1,0 +1,108 @@
+<html>
+
+<head>
+  <!--
+  <script>
+    // WebXR requires https: to work so ensure redirected if needed.
+    if (location.hostname !== 'localhost' && window.location.protocol === 'http:') window.location.protocol = 'https:';
+  </script>-->
+
+  <!-- the AFrame library and 3rd party components -->
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+  <script>window.module = {exports:{}}</script><!-- Dirty hack to get the sphere collider loading :-( -->
+	<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@master/src/misc/sphere-collider.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@d08cf88/dist/aframe-extras.controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physx.release.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physics.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/handy-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/magnet-helpers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@1.0.1/build/aframe-html.min.js"></script>
+  <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  <script src="ar-shadow-helper.js"></script>
+  <script src="ar-cursor.js"></script>
+  <script src="simple-navmesh-constraint.js"></script>
+  <script src="model-utils.js"></script>
+  
+  <!-- Our custom behaviour -->
+	<script src="main.js"></script>
+  
+  <title>AFrame Handy Demo</title>
+  <meta property="og:title" content="AFrame Handy Work Demo" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AdaRoseCannon" />
+  <meta name="twitter:creator" content="@AdaRoseCannon" />
+  <meta property="og:url" content="https://aframe-xr-starterkit.glitch.me/" />
+  <meta name="description" content="A sample scene for working with WebXR Hand Tracking" />
+  <meta property="og:description" content="A sample scene for working with WebXR Hand Tracking" />
+  <meta property="og:image" content="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/snapshot.png?v=1645201177438" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<a-scene
+    inspector-plugin-recast
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://stemkoski.github.io/A-Frame-Examples/js/physx.release.wasm; useDefaultScene: false;"
+		webxr="overlayElement:#dom-overlay;"
+		background="color:skyblue;"
+		reflection="directionalLight:#dirlight;"
+    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
+		ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+		shadow="type: pcfsoft"
+		gltf-model="dracoDecoderPath: https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/draco/gltf/;"
+    ar-cursor raycaster="objects: #my-ar-objects a-sphere"
+	>
+    <a-assets>
+      <a-asset-item id="building-glb" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/venue.glb?v=1644331843500"></a-asset-item>
+      <a-asset-item id="navmesh-glb" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/navmesh.glb?v=1644329586500"></a-asset-item>
+      <a-asset-item id="right-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
+      <a-asset-item id="left-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-left-hand-webxr/model.gltf"></a-asset-item>
+      <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+      <a-asset-item id="sword-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/katana.glb?v=1648465043810"></a-asset-item>
+      <a-asset-item id="watergun-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watergun.glb?v=1646916260646"></a-asset-item>
+      <a-asset-item id="stew-gltf" src="https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/pot-stew/model.gltf"></a-asset-item>
+      <a-asset-item id="table-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/small_wooden_table_01_1k-v1.glb?v=1647263187998"></a-asset-item>
+      <a-asset-item id="clock-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/vintage_grandfather_clock_01_1k-v2.glb?v=1647265174189"></a-asset-item>
+      <a-asset-item id="ladder-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/ladder.glb?v=1648465045608"></a-asset-item>
+
+      <a-asset-item id="spiral-glb" src="assets/apartment.glb"></a-asset-item>
+
+      <img id="bake" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/Bake(3).webp?v=1644331344700" crossorigin="anonymous">
+      <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
+      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+      <a-mixin id="handle-visual" geometry="width:0.05;height:0.05;depth:0.2"></a-mixin>
+    </a-assets>
+
+    <a-entity
+      id="cameraRig"
+      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#head;"
+      position="-1 0 1" rotation="0 45 0" origin-on-ar-start
+    ></a-entity>
+      <!-- camera -->
+      <a-entity id="head"
+        camera="near:0.01;"
+        look-controls="pointerLockEnabled: false"
+        position="0 1.65 0"
+      ></a-entity>
+      
+      
+      <a-gltf-model src="#spiral-glb"
+        id="spiral"
+        class="spiral1"
+        rotation="180 0 180"
+        lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+        depthwrite="true"
+        no-tonemapping="Light"
+        shadow="cast:false;receive:true;"
+      ></a-gltf-model>
+
+
+
+	</a-scene>
+
+
+</body>
+
+</html>
