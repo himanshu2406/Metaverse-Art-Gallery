@@ -17,6 +17,20 @@ AFRAME.registerComponent('metamask-link', {
   }
   });
 
+  AFRAME.registerComponent('nft-link', {
+    // Could use a schem to preserve the color! then simply change it on update
+    // if clicked?
+    init: function () {
+    this.el.addEventListener('click', async () => {
+      console.log(this.data.link);
+      window.open(
+        this.data.link,
+        '_blank' // <- This is what makes it open in a new window.
+      );
+    });
+    }
+    });
+
 AFRAME.registerComponent("hide-on-hit-test-start", {
   init: function() {
     var self = this;
