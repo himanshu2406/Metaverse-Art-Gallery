@@ -292,7 +292,7 @@
       <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="3 1 0" rotation="0 0 0" src="https://i.seadn.io/gae/-0YEWuGk89n6TLwtDwfuR9B2Vi0HuHMhzzaCHFL1ic6vELnuZQI723go3uFRhTYdhoaKAKHYg5SLJoCEGB4cJzj0OsfQZTUqxVcAzsQ?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
    -->    
       <a-box id="nftImage1" class="clickable"  text="width: 4; value: This text will be 4 units wide."scale="0.09 0.12 1" depth="0.05" width="15.4" height="20.2" position="2.435 4.039 -6.8" rotation="8.4 0 0" src="http://localhost:8080/api/v1/nft/1/3/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/1/3/openseaurl'></a-box>
-      <a-box id="nftImage2" class="clickable" scale="-0.38 0.59 1" depth="0.05" width="15.4" height="20.2" position="7.721 6.18 -7.178" rotation="0 90 0" src="https://openseauserdata.com/files/c6aa0042673fd46264c553714ea711fe.mp4" nft-link='link:https://opensea.io/assets/ethereum/0xb932a70a57673d89f4acffbe830e8ed7f75fb9e0/40055'></a-box>
+      <a-box id="nftImage2" class="clickable" scale="-0.38 0.59 1" depth="0.05" width="15.4" height="20.2" position="7.721 6.18 -7.178" rotation="0 90 0" src="http://localhost:8080/api/v1/nft/1/4/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/1/4/openseaurl'></a-box>
       <a-box id="nftImage3" class="clickable" scale="-0.12 0.06 1" depth="0.05" width="15.4" height="20.2" position="-0.41 3.579 -50.15" rotation="0 90 0" src="http://localhost:8080/api/v1/nft/2/1/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/1/openseaurl'></a-box>
       <a-box id="nftImage4" class="clickable" scale="0.08 0.09 1" depth="0.05" width="15.4" height="20.2" position="-2.65 3.593 -57.58" rotation="0 0 0" src="http://localhost:8080/api/v1/nft/2/2/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/2/openseaurl'></a-box>
 
@@ -302,6 +302,12 @@
       <a-text position="-1.38 5.68 -13.78" rotation="20 0 0"font="dejavu" value="Path to Room 2" color="#847943" align="center"></a-text>
       <a-box id="owner_btn" class="clickable" scale="0.05 0.1 1" depth="0.05" width="4.4" height="3.2" position="-15.2 6.741 -9.274" rotation="-66 138.6 0" src="assets/admin.jpg" link="href: owner.html"></a-box>
 
+      <!-- <a-box  class="clickable" scale="2.1 1 1" depth="0.05" width="4.4" height="3.2" position="-18.2 7.263 -10.39"  rotation="0 90 0"  src="assets/map_overview_pic.png" link="href: owner.html"></a-box>
+      <a-box  class="clickable" scale="0.5 0.5 1" depth="0.05" width="4.4" height="3.2" position="-18.2 9.73 -12.4"  rotation="20 64 0"  src="assets/2floor_pic.png" link="href: room2.html"></a-box>
+      <a-box  class="clickable" scale="0.5 0.5 1" depth="0.05" width="4.4" height="3.2" position="-19.2 9.611 -9.95"   rotation="20 90 0"src="assets/animatedgallery_pic.png" link="href: owner.html"></a-box>
+      <a-box  class="clickable" scale="0.5 0.5 1" depth="0.05" width="4.4" height="3.2" position="-18.2 9.75 -7.792"  rotation="-20 -45 0"src="assets/spiral_pic.png" link="href: room1.html"></a-box>
+ -->
+ <a-box  class="clickable" scale="1.7 1.5 1" depth="0.05" width="4.4" height="3.2" position="-16.7 8.662 -10.1"  rotation="0 90 0"  src="assets/map_overview_pic.png" ></a-box>
 
     </a-entity>
 
@@ -335,7 +341,7 @@
 
   // Call the function for each image element and image id
   loadImage("nftImage1", 1,3);
-  //loadImage("nftImage2", 1,3);
+  loadImage("nftImage2", 1,4);
   loadImage("nftImage3", 2,1);
   loadImage("nftImage4", 2,2);
   </script>
