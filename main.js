@@ -1,5 +1,21 @@
 /* jshint esversion: 9 */
 /* global THREE, AFRAME */
+AFRAME.registerComponent('metamask-link', {
+  // Could use a schem to preserve the color! then simply change it on update
+  // if clicked?
+  init: function () {
+  this.el.addEventListener('click', async () => {
+    const provider = await detectEthereumProvider();
+    if (provider) {
+      console.log('MetaMask is installed!');
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      console.log(accounts[0]);
+    } else {
+      console.log('Please install MetaMask!');
+    }
+  });
+  }
+  });
 
 AFRAME.registerComponent("hide-on-hit-test-start", {
   init: function() {

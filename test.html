@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MetaMask Integration</title>
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider"></script>
+  </head>
+  <body>
+    <button id="connectButton">Connect to MetaMask</button>
+    <script>
+      const connectButton = document.getElementById('connectButton');
+      connectButton.addEventListener('click', async () => {
+        const provider = await detectEthereumProvider();
+        if (provider) {
+          console.log('MetaMask is installed!');
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log(accounts[0]);
+        } else {
+          console.log('Please install MetaMask!');
+        }
+      });
+    </script>
+  </body>
+</html>
