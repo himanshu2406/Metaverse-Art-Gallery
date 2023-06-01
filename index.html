@@ -288,15 +288,54 @@
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
 
       <a-box id="metamask_btn" class="clickable" metamask-link='' scale="0.05 0.1 1" depth="0.05" width="4.4" height="3.2" position="-15.57 6.84 -10" rotation="62 -90 0" src="assets/MetaMask_Fox.svg"></a-box>
-      <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="2 1 0" rotation="0 0 0" src="https://i.seadn.io/gcs/files/2cf5f8e41bf0fe223e95184e98feff2d.png?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
+      <!-- <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="2 1 0" rotation="0 0 0" src="https://i.seadn.io/gcs/files/2cf5f8e41bf0fe223e95184e98feff2d.png?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
       <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="3 1 0" rotation="0 0 0" src="https://i.seadn.io/gae/-0YEWuGk89n6TLwtDwfuR9B2Vi0HuHMhzzaCHFL1ic6vELnuZQI723go3uFRhTYdhoaKAKHYg5SLJoCEGB4cJzj0OsfQZTUqxVcAzsQ?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
-      <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="4 1 0" rotation="0 0 0" src="" nft-link='link:'></a-box>
+   -->    
+      <a-box id="nftImage1" class="clickable"  text="width: 4; value: This text will be 4 units wide."scale="0.09 0.12 1" depth="0.05" width="15.4" height="20.2" position="2.435 4.039 -6.8" rotation="8.4 0 0" src="http://localhost:8080/api/v1/nft/1/3/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/1/3/openseaurl'></a-box>
+      <a-box id="nftImage2" class="clickable" scale="-0.38 0.59 1" depth="0.05" width="15.4" height="20.2" position="7.721 6.18 -7.178" rotation="0 90 0" src="https://openseauserdata.com/files/c6aa0042673fd46264c553714ea711fe.mp4" nft-link='link:https://opensea.io/assets/ethereum/0xb932a70a57673d89f4acffbe830e8ed7f75fb9e0/40055'></a-box>
+      <a-box id="nftImage3" class="clickable" scale="-0.12 0.06 1" depth="0.05" width="15.4" height="20.2" position="-0.41 3.579 -50.15" rotation="0 90 0" src="http://localhost:8080/api/v1/nft/2/1/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/1/openseaurl'></a-box>
+      <a-box id="nftImage4" class="clickable" scale="0.08 0.09 1" depth="0.05" width="15.4" height="20.2" position="-2.65 3.593 -57.58" rotation="0 0 0" src="http://localhost:8080/api/v1/nft/2/2/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/2/openseaurl'></a-box>
 
+      <a-text position="2.435 5.5 -6.8" rotation="0 180 0" value="Id: 3" font = "dejavu" color="blue" align="center"></a-text>
+      <a-text position="7.721 13.29 -7.178" rotation="0 -90 0" value="Id: 4" color="#f91a1a" align="center"></a-text>
+      <a-text position="0 5.429 -5.597" value="Room 1" color="#646473" align="center"></a-text>
+      <a-text position="-1.38 5.68 -13.78" rotation="20 0 0"font="dejavu" value="Path to Room 2" color="#847943" align="center"></a-text>
+      <a-box id="owner_btn" class="clickable" scale="0.05 0.1 1" depth="0.05" width="4.4" height="3.2" position="-15.2 6.741 -9.274" rotation="-66 138.6 0" src="assets/admin.jpg" link="href: owner.html"></a-box>
 
 
     </a-entity>
 
 	</a-scene>
+  <script>
+    // Define a function that takes an image element id and an image id as parameters
+  function loadImage(imageElementId, roomid, imageId) {
+    // Get the image element by id
+    const imageElement = document.getElementById(imageElementId);
+    console.log(imageElement);
+    // Construct the URL that returns the image URL as a string using the image id
+    const imageUrl = `http://localhost:8080/api/v1/nft/${roomid}/${imageId}/imageUrl`;
+    const openSeaUrl = `http://localhost:8080/api/v1/nft/${roomid}/${imageId}/openSeaUrl`;
+    // Fetch the URL and set the src attribute of the image element
+    fetch(imageUrl)
+      .then((response) => response.text())
+      .then((imageUrl) => {
+        imageUrl = imageUrl.replace(/"/g, "");
+        imageElement.setAttribute("src",imageUrl);
+      })
+      .catch((error) => console.error(error));
+    fetch(openSeaUrl)
+      .then((response) => response.text())
+      .then((openSeaUrl) => {
+        openSeaUrl = openSeaUrl.replace(/"/g, "");
+        imageElement.setAttribute("nft-link", "link:" + openSeaUrl);
+      })
+      .catch((error) => console.error(error));
+      console.log(imageElement);
+  }
+
+  // Call the function for each image element and image id
+  loadImage("nftImage1", 1,3);
+  </script>
 
 	<div id="dom-overlay">
     <h1>

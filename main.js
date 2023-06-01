@@ -17,7 +17,7 @@ AFRAME.registerComponent('metamask-link', {
   }
   });
 
-  AFRAME.registerComponent('nft-link', {
+  /* AFRAME.registerComponent('nft-link', {
     // Could use a schem to preserve the color! then simply change it on update
     // if clicked?
     init: function () {
@@ -29,7 +29,7 @@ AFRAME.registerComponent('metamask-link', {
       );
     });
     }
-    });
+    }); */
 
 AFRAME.registerComponent("hide-on-hit-test-start", {
   init: function() {
