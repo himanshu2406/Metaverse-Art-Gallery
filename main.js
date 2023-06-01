@@ -4,8 +4,15 @@ AFRAME.registerComponent('metamask-link', {
   // Could use a schem to preserve the color! then simply change it on update
   // if clicked?
   init: function () {
-  this.el.addEventListener('click', function (evt) {
-  console.log('I was clicked at: ', evt.detail.intersection.point);
+  this.el.addEventListener('click', async () => {
+    const provider = await detectEthereumProvider();
+    if (provider) {
+      console.log('MetaMask is installed!');
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      console.log(accounts[0]);
+    } else {
+      console.log('Please install MetaMask!');
+    }
   });
   }
   });
