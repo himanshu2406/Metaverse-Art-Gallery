@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+  <script>window.module = {exports:{}}</script><!-- Dirty hack to get the sphere collider loading :-( -->
+	<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@master/src/misc/sphere-collider.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@d08cf88/dist/aframe-extras.controls.min.js"></script> DOESN'T LET ANIMATIONS PLAY -->
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physx.release.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physics.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/handy-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/magnet-helpers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@1.0.1/build/aframe-html.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <!-- <script src="js/aframe-animation-timeline-component.min.js"></script> -->
+  <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-template-component@3.x.x/dist/aframe-template-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-layout-component@4.x.x/dist/aframe-layout-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.x.x/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-proxy-event-component/dist/aframe-proxy-event-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-debug-cursor-component/dist/aframe-debug-cursor-component.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+<!-- geomtery merger -->
+  <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-exokit-avatars@1.0.2"></script>
+    <title>A-Frame Exokit Avatars</title>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="model" src="assets/dan.glb"></a-asset-item>
+      </a-assets>
+      <a-plane id="ground" rotation="-90 0 0" color="green" height="10" width="10"></a-plane>
+      <a-light type="directional" intensity="0.5"></a-light>
+      <a-light type="ambient" intensity="0.5"></a-light>
+      <a-sky color="blue"></a-sky>
+      <a-entity avatar="model: #model"></a-entity>
+      <a-entity id="player">
+        <a-camera id="head" near="0.1" wasd-controls look-controls></a-camera>
+        <a-entity id="leftHand" tracked-controls="hand: left"></a-entity>
+        <a-entity id="rightHand" tracked-controls="hand: right"></a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

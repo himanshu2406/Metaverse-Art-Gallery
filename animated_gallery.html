@@ -1,0 +1,263 @@
+<html>
+
+<head>
+  <!--
+  <script>
+    // WebXR requires https: to work so ensure redirected if needed.
+    if (location.hostname !== 'localhost' && window.location.protocol === 'http:') window.location.protocol = 'https:';
+  </script>-->
+
+  <!-- the AFrame library and 3rd party components -->
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@0d23f9b/dist/aframe-master.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+  <script>window.module = {exports:{}}</script><!-- Dirty hack to get the sphere collider loading :-( -->
+	<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@master/src/misc/sphere-collider.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/gh/Hypnos-phi/aframe-extras@d08cf88/dist/aframe-extras.controls.min.js"></script> DOESN'T LET ANIMATIONS PLAY -->
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physx.release.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/diarmidmackenzie/christmas-scene@4a6a774/lib/physics.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-blink-controls@573383a/dist/aframe-blink-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/handy-controls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/magnet-helpers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@1.0.1/build/aframe-html.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <!-- <script src="js/aframe-animation-timeline-component.min.js"></script> -->
+  <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-template-component@3.x.x/dist/aframe-template-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-layout-component@4.x.x/dist/aframe-layout-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.x.x/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-proxy-event-component/dist/aframe-proxy-event-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-debug-cursor-component/dist/aframe-debug-cursor-component.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+<!-- geomtery merger -->
+  <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
+
+  <script src="ar-shadow-helper.js"></script>
+  <script src="ar-cursor.js"></script>
+  <script src="simple-navmesh-constraint.js"></script>
+  <script src="model-utils.js"></script>
+  
+  <!-- Our custom behaviour -->
+    <script src="new_room.js"></script>
+  <script src="link-controls.js"></script>
+  
+  <title>AFrame Handy Demo</title>
+  <meta property="og:title" content="AFrame Handy Work Demo" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AdaRoseCannon" />
+  <meta name="twitter:creator" content="@AdaRoseCannon" />
+  <meta property="og:url" content="https://aframe-xr-starterkit.glitch.me/" />
+  <meta name="description" content="A sample scene for working with WebXR Hand Tracking" />
+  <meta property="og:description" content="A sample scene for working with WebXR Hand Tracking" />
+  <meta property="og:image" content="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/snapshot.png?v=1645201177438" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+<!--   CAN USE PRECISION AND FOG INSIDE SCENE TOO -->
+	<a-scene
+    stats
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://stemkoski.github.io/A-Frame-Examples/js/physx.release.wasm; useDefaultScene: false;"
+		webxr="overlayElement:#dom-overlay;"
+		background="color:skyblue;"
+		reflection="directionalLight:#dirlight;"
+    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:2;toneMapping:ACESFilmic;"
+		ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+		shadow="type: pcfsoft"
+		gltf-model="dracoDecoderPath: https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/draco/gltf/;"
+    raycaster="objects: #my-ar-objects a-sphere [link]"
+    ar-cursor 
+	>
+    <a-assets>
+      <a-asset-item id="right-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
+      <a-asset-item id="left-gltf" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-left-hand-webxr/model.gltf"></a-asset-item>
+      <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+      <a-asset-item id="sword-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/katana.glb?v=1648465043810"></a-asset-item>
+      <a-asset-item id="watergun-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watergun.glb?v=1646916260646"></a-asset-item>
+      <img id="interd_image" src="assets/Interdimensional_image.png">
+
+      <a-asset-item id="animated_gallery_mesh" src="assets/artgallery_clean_animated_mesh.glb"></a-asset-item>
+      <a-asset-item id="animated_gallery" src="assets/art_gallery_clean_animated.glb"></a-asset-item>
+
+
+
+      <img id="bake" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/Bake(3).webp?v=1644331344700" crossorigin="anonymous">
+      <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
+      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+      <a-mixin id="handle-visual" geometry="width:0.05;height:0.05;depth:0.2"></a-mixin>
+    </a-assets>
+
+    <a-entity
+      id="cameraRig"
+      simple-navmesh-constraint="navmesh:.navmesh;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#head;"
+      position="-1 0 1" rotation="0 45 0" origin-on-ar-start
+    >
+      <!-- camera -->
+      <a-entity id="head"
+        camera="near:0.01;"
+        look-controls="pointerLockEnabled: false"
+        position="0 1.65 0"
+      ></a-entity>
+      
+      <a-entity xr-follow>
+        <a-gltf-model
+          id="sword" src="#sword-gltf" shadow="receive:false;"
+          data-pick-up class="magnet-left magnet-right"
+          position="-0.2 -0.4 0" rotation="-30 180 0" scale="0.6,0.6,1"
+          animation__restore_position="startEvents:putdown;pauseEvents:pickup;property:position;to:-0.2 -0.4 0;easing:easeOutBack;"
+          animation__restore_rotation="startEvents:putdown;pauseEvents:pickup;property:rotation;to:-30 180 0;easing:easeOutBack;"
+        >
+          <a-box physx-body="type: kinematic;" width="0.03" height="0.03" depth="0.790" rotation="-16 0 0" position="0 -0.062 -0.331" visible="false"></a-box>
+        </a-gltf-model>
+        <a-gltf-model 
+          shadow="receive:false;" id="watergun" src="#watergun-gltf"
+          physx-body-from-model="type: kinematic;"
+          class="magnet-left magnet-right" data-pick-up 
+          position="0.2 -0.4 0" rotation="30 180 0"
+          linear-constraint="axis:0 1 0;min:-0.15;max:0;part:Slider;"
+          animation__restore_position="startEvents:putdown;pauseEvents:pickup;property:position;to:0.2 -0.4 0;easing:easeOutBack;"
+          animation__restore_rotation="startEvents:putdown;pauseEvents:pickup;property:rotation;to:30 180 0;easing:easeOutBack;"
+        >
+          <a-entity id="watergun-slider-magnet" rotation="-74 0 0" attach-to-model="Slider"></a-entity>
+        </a-gltf-model>
+      </a-entity>
+      
+      <!-- Hand tracking -->
+      <a-entity handy-controls="right:#right-gltf;materialOverride:right;" material="color:gold;metalness:1;roughness:0;">
+        
+        <!-- For screen space inputs like mobile AR -->
+        <a-torus radius="0.008" radius-tubular="0.001" material="shader:flat;color:blue" data-none="screen-0"></a-torus>
+        <a-torus radius="0.008" radius-tubular="0.001" material="shader:flat;color:green" data-none="screen-1"></a-torus>
+        <a-torus radius="0.008" radius-tubular="0.001" material="shader:flat;color:red" data-none="screen-2"></a-torus>
+        
+        <!-- Put an exit button on the wrist for handtracking -->
+        <a-gltf-model src="#watch-gltf" data-left="wrist" position="-1000 0 0">
+          <a-sphere radius="0.02" position="0 0.02 0" sphere-collider="radius:0.02;objects:[data-right$=-tip];" exit-on="hitend" visible="false"></a-sphere>
+        </a-gltf-model>
+        
+        <!-- Add a golden ring on the finger -->
+        <a-entity data-left="ring-finger-phalanx-proximal">
+          <a-torus position="0 0 -0.03" radius="0.008" radius-tubular="0.001" scale="1 1 1.5" material="color:gold;metalness:1;roughness:0;"></a-torus>
+        </a-entity>
+        
+        <!-- Use the finger tips for teleporting when the user points -->
+        <a-entity data-right="index-finger-tip" mixin="blink" blink-controls="snapTurn:false;startEvents:pose_point_fuseShort;endEvents:pose_point_fuseLong;cancelEvents:pose_cancel_point;"></a-entity>
+        <a-entity data-left="index-finger-tip"  mixin="blink" blink-controls="snapTurn:false;startEvents:pose_point_fuseShort;endEvents:pose_point_fuseLong;cancelEvents:pose_cancel_point;"></a-entity>
+
+        <!-- The direction hands are facing, we will also attach labels to show the currently detected pose or controller button -->
+        <!-- These also do teleportaion for Blink controls in VR -->
+        <a-entity id="hand" laser-controls link-controls="hand: right" raycaster="objects: .clickable [link]"></a-entity>
+        <a-entity data-right="ray" mixin="blink" html-pointer="" raycaster="objects:[html];far:0.3;showLine:false;lineColor:black;">
+          <a-entity position="0 0 -0.22" visible="false" class="pose-label" text="value: Hello World; align: center;"></a-entity>
+        </a-entity>
+        <a-entity data-left="ray" mixin="blink" html-pointer="" raycaster="objects:[html];far:0.3;showLine:false;lineColor:black;">
+          <a-entity position="0 0 -0.22" visible="false" class="pose-label" text="value: Hello World; align: center;"></a-entity>
+        </a-entity>
+        
+        <!-- These get drawn towards grabable objects, moving the whole hand and the attached elements-->
+        <a-entity id="left-magnet" data-left="grip"  data-magnet="magnet-left"  grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#left-no-magnet;"></a-entity>
+        <a-entity id="right-magnet" data-right="grip" data-magnet="magnet-right" grab-magnet-target="startEvents:squeezestart,pose_fist;stopEvents:pose_flat_fuseShort,squeezeend;noMagnetEl:#right-no-magnet;"></a-entity>
+    
+        <!-- markers to let us know the real location of the hands, you probably want to make them visible="false" or just make them empty <a-entities> -->
+        <a-entity id="left-no-magnet" data-left="grip" data-no-magnet>
+          <a-entity html="#my-interface" position="-0.142 -0.0166 -0.02928" rotation="-80 90 0" scale="0.7 0.7 0.7"></a-entity>
+        </a-entity>
+        <a-entity id="right-no-magnet" data-right="grip" data-no-magnet></a-entity>
+        
+        <!-- Invisible objects at the tips of each finger for physics or intersections -->
+        <a-sphere data-right="index-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-right="middle-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-right="ring-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-right="pinky-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-right="thumb-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-left="index-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-left="middle-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-left="ring-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-left="pinky-finger-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+        <a-sphere data-left="thumb-tip" radius="0.004" visible="false" physx-body="type: kinematic;"></a-sphere>
+      </a-entity>
+    </a-entity>
+    
+
+    <!-- This plane is only visible in AR and follows the given target to provide it with shadows.-->
+		<a-light id="dirlight" shadow-camera-automatic="[ar-shadow-helper],#table,#ladder" intensity="0.8" light="castShadow:true;type:directional" position="0 3 -6"></a-light>
+    <a-entity ar-shadow-helper="target:#my-ar-objects;light:#dirlight;" visible="false">
+      <a-plane rotation="-90 0 0" shadow="cast:false;receive:true;" position="0 0.01 0" material="shader:shadow; depthWrite:false; opacity:0.9;"></a-plane>
+    </a-entity>
+    <!-- geomtery merger -->
+    <!-- Environment presets -->
+
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+
+      <a-gltf-model class="navmesh" rotation="0 -90 0" src="#animated_gallery_mesh" position = "-1 0 -14" visible="false"></a-gltf-model>
+    <a-gltf-model src="#animated_gallery"
+          animation-mixer="clip:Take 001"
+          id="animated-gallery"
+          position = "-1 0 -14"
+          rotation="0 -90 0"
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          visible="true"
+    ></a-gltf-model>
+
+
+
+	</a-scene>
+
+	<div id="dom-overlay">
+    <h1>
+      Hello World
+    </h1>
+		<div class="overlay-footer">
+      <section style="display: inline-block; background: lavenderblush; color: #333333; border-radius: 1em; padding: 1em; margin:0; accent-color: hotpink;" id="my-interface">
+        <h2>Settings</h2>
+        <fieldset style="border:none;">
+          <legend>Thumbstick Behaviour</legend>
+          <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-teleport" name="thumbstick" value="teleport" checked><label for="thumbstick-teleport"> Teleport</label>
+          <input onclick="toggleThumbstick(this)" type="radio" id="thumbstick-move" name="thumbstick" value="move"><label for="thumbstick-move"> Move</label>
+        </fieldset>
+        <button onclick="AFRAME.scenes[0].exitVR()" style="display: block;">Exit Immersive</button>
+      </section>
+      
+      <!-- HTML form logic -->
+      <script>
+        let movementType = 'teleport';
+        function toggleThumbstick(detail) {
+          const rayPointers = ['[data-right="ray"]', '[data-left="ray"]'].map(s => document.querySelector(s));
+          const type = detail.value;
+          movementType = type;
+          if (type === 'move') {
+
+            // Hack fix for when the camera rig is rotated.
+            cameraRig.object3D.rotation.y = 0;
+            cameraRig.setAttribute('movement-controls', 'enabled', true);
+            for (const p of rayPointers) p.removeAttribute('mixin');
+          }
+          if (type === 'teleport') {
+            cameraRig.setAttribute('movement-controls', 'enabled', false);
+            for (const p of rayPointers) p.setAttribute('mixin', 'blink');
+          }
+        }
+        // If the user is teleporting disable movement-controls in XR
+        const sceneEl = document.querySelector("a-scene");
+        sceneEl.addEventListener("enter-vr", function() {
+          if (movementType === 'teleport') {
+            cameraRig.setAttribute('movement-controls', 'enabled', false);
+          }
+        });
+        sceneEl.addEventListener("exit-vr", function() {
+          cameraRig.setAttribute('movement-controls', 'enabled', true);
+        });
+      </script>
+      <div id="dom-overlay-message">Enter AR or VR to start.</div>
+    </div>
+	</div>
+  
+  <div class="glitchButton" style="position: absolute; top: 1em; right: 1em;"></div><script src="https://button.glitch.me/button.js"></script>
+</body>
+
+</html>

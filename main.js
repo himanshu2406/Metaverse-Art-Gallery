@@ -1,35 +1,106 @@
 /* jshint esversion: 9 */
 /* global THREE, AFRAME */
-AFRAME.registerComponent('metamask-link', {
+
+AFRAME.registerComponent('change-color-on-click', {
   // Could use a schem to preserve the color! then simply change it on update
   // if clicked?
   init: function () {
-  this.el.addEventListener('click', async () => {
-    const provider = await detectEthereumProvider();
-    if (provider) {
-      console.log('MetaMask is installed!');
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      console.log(accounts[0]);
+  var COLORS = [
+  'pink',
+  //'blue',
+  'yellow',
+  'red',
+  'peachpuff',
+  '#2EAFAC',
+  '#BAE'];
+  this.el.addEventListener('click', function (evt) {
+  var randomIndex = Math.floor(Math.random() * COLORS.length);
+  var newColor = COLORS[randomIndex];
+  this.setAttribute('material', 'color', newColor);
+  console.log('I was clicked at: ', evt.detail.intersection.point, "and my new color is: ", newColor);
+  });
+  }
+  });
+
+AFRAME.registerComponent('change-posi-on-click', {
+  // Could use a schem to preserve the color! then simply change it on update
+  // if clicked?
+  init: function () {
+  this.el.addEventListener('click', function (evt) {
+    document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 1 10.5; to: 9 30.5 10.5; loop: false");
+    document.getElementById("animated-gallery").setAttribute('visible',"true");
+    document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 0.526 10.5; to: 9 30.526 10.5; loop: false");
+    document.getElementById("ground-floor").setAttribute('visible','false')
+    this.setAttribute('material', 'color', "blue");
+    console.log('I was clicked at: ', evt.detail.intersection.point, "and my new color is: ");
+    if(document.getElementById("floor-30").getAttribute("floor")=="0"){
+      document.getElementById("floor-30").setAttribute('floor','30');
+      document.getElementById("floor-30").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 2 7.5; to: 8.5 32 7.5; loop: false");
     } else {
-      console.log('Please install MetaMask!');
+      document.getElementById("floor-30").setAttribute('floor','0');
+      document.getElementById("floor-30").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 32 7.5; to: 8.5 2 7.5; loop: false");
+      document.getElementById("ground-floor").setAttribute('visible','true');
+      document.getElementById("animated-gallery").setAttribute('visible',"false");
+      document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 30.5 10.5; to: 9 1 10.5; loop: false");
+      document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 30.526 10.5; to: 9 0.526 10.5; loop: false");
     }
   });
   }
   });
 
-  AFRAME.registerComponent('nft-link', {
+  AFRAME.registerComponent('change-posi-40', {
     // Could use a schem to preserve the color! then simply change it on update
     // if clicked?
     init: function () {
-    this.el.addEventListener('click', async () => {
-      console.log(this.data.link);
-      window.open(
-        this.data.link,
-        '_blank' // <- This is what makes it open in a new window.
-      );
+    this.el.addEventListener('click', function (evt) {
+      document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 1 10.5; to: 9 40.5 10.5; loop: false");
+      document.getElementById("scifi-lobby").setAttribute('visible',"true");
+      document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 0.526 10.5; to: 9 40.526 10.5; loop: false");
+      document.getElementById("ground-floor").setAttribute('visible','false')
+      this.setAttribute('material', 'color', "blue");
+      console.log('I was clicked at: ', evt.detail.intersection.point, "and my new color is: ");
+      if(document.getElementById("floor-40").getAttribute("floor")=="0"){
+        document.getElementById("floor-40").setAttribute('floor','40');
+        document.getElementById("floor-40").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 5.2 7.5; to: 8.5 42 7.5; loop: false");
+      } else {
+        document.getElementById("floor-40").setAttribute('floor','0');
+        document.getElementById("floor-40").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 42 7.5; to: 8.5 5.2 7.5; loop: false");
+        document.getElementById("ground-floor").setAttribute('visible','true');
+        document.getElementById("scifi-lobby").setAttribute('visible',"false");
+        document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 40.5 10.5; to: 9 1 10.5; loop: false");
+        document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 40.526 10.5; to: 9 0.526 10.5; loop: false");
+      }
     });
     }
     });
+
+    AFRAME.registerComponent('change-posi-50', {
+      // Could use a schem to preserve the color! then simply change it on update
+      // if clicked?
+      init: function () {
+      this.el.addEventListener('click', function (evt) {
+        document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 1 10.5; to: 9 50.5 10.5; loop: false");
+        document.getElementById("galaxy_showroom").setAttribute('visible',"true");
+        document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 0.526 10.5; to: 9 50.526 10.5; loop: false");
+        document.getElementById("ground-floor").setAttribute('visible','false')
+        this.setAttribute('material', 'color', "blue");
+        console.log('I was clicked at: ', evt.detail.intersection.point, "and my new color is: ");
+        if(document.getElementById("floor-50").getAttribute("floor")=="0"){
+          document.getElementById("env").setAttribute("environment","lighting:none;shadow:true;preset: starry;")
+          document.getElementById("floor-50").setAttribute('floor','50');
+          document.getElementById("floor-50").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 3.5 7.5; to: 8.5 52 7.5; loop: false");
+        } else {
+          document.getElementById("env").setAttribute("environment","lighting:none;shadow:true;preset: osiris;")
+          document.getElementById("floor-50").setAttribute('floor','0');
+          document.getElementById("floor-50").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:8.5 52 7.5; to: 8.5 3.5 7.5; loop: false");
+          document.getElementById("ground-floor").setAttribute('visible','true');
+          document.getElementById("galaxy_showroom").setAttribute('visible',"false");
+          document.getElementById("capsule-lift").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from: 9 50.5 10.5; to: 9 1 10.5; loop: false");
+          document.getElementById("cameraRig").setAttribute('animation__position',"property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:9 50.526 10.5; to: 9 0.526 10.5; loop: false");
+        }
+      });
+      }
+      });
 
 AFRAME.registerComponent("hide-on-hit-test-start", {
   init: function() {

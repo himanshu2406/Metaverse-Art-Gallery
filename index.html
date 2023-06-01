@@ -32,8 +32,6 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 <!-- geomtery merger -->
   <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
-<!-- metamask -->
-  <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider"></script>
 
   <script src="ar-shadow-helper.js"></script>
   <script src="ar-cursor.js"></script>
@@ -42,7 +40,6 @@
   
   <!-- Our custom behaviour -->
 	<script src="main.js"></script>
-  <script src="link-controls.js"></script>
   
   <title>AFrame Handy Demo</title>
   <meta property="og:title" content="AFrame Handy Work Demo" />
@@ -57,7 +54,15 @@
 </head>
 
 <body>
+  <!-- <script>
+    AFRAME.registerComponent("draw-dist", {
+      init: function() {
+        this.el.camera.far = 100
+      }
+    })
+  </script> -->
 	<a-scene
+    draw-dist
     stats
     physx="autoLoad: true; delay: 1000; wasmUrl: https://stemkoski.github.io/A-Frame-Examples/js/physx.release.wasm; useDefaultScene: false;"
 		webxr="overlayElement:#dom-overlay;"
@@ -67,7 +72,7 @@
 		ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
 		shadow="type: pcfsoft"
 		gltf-model="dracoDecoderPath: https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/draco/gltf/;"
-    raycaster="objects: #my-ar-objects a-sphere [link]"
+    raycaster="objects: #my-ar-objects a-sphere"
     ar-cursor 
 	>
     <a-assets>
@@ -83,7 +88,22 @@
       <a-asset-item id="clock-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/vintage_grandfather_clock_01_1k-v2.glb?v=1647265174189"></a-asset-item>
       <a-asset-item id="ladder-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/ladder.glb?v=1648465045608"></a-asset-item>
 
+
+
       <a-asset-item id="spiral-glb" src="assets/apartment.glb"></a-asset-item>
+      <a-asset-item id="lift" src="assets/lift.glb"></a-asset-item>
+      <a-asset-item id="lift_mesh" src="assets/lift_mesh.glb"></a-asset-item>
+      <a-asset-item id="twofloor_gallery" src="assets/art_gallery_showroom_2floor.glb"></a-asset-item>
+      <a-asset-item id="twofloor_gallery_mesh" src="assets/art_gallery_2floor_mesh.glb"></a-asset-item>
+      <a-asset-item id="scifi_skycorridor" src="assets/scifi-corridor_sky_palace.glb"></a-asset-item>
+      <a-asset-item id="scifi_skycorridor_mesh" src="assets/sky_corridor_navmesh.glb"></a-asset-item>
+      <a-asset-item id="scifi_maincontrols" src="assets/scifi_maincontrols.glb"></a-asset-item>
+      <a-asset-item id="scifi_maincontrols_mesh" src="assets/scifi_maincontrols_mesh.glb"></a-asset-item>
+      <a-asset-item id="spiral_mesh" src="assets/apartment_patched.glb"></a-asset-item>
+      <a-asset-item id="capsule_lift" src="assets/capsule_elevator.glb"></a-asset-item>
+      <a-asset-item id="animated_gallery_mesh" src="assets/artgallery_clean_animated_mesh.glb"></a-asset-item>
+      <a-asset-item id="animated_gallery" src="assets/art_gallery_clean_animated.glb"></a-asset-item>
+
 
       <img id="bake" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/Bake(3).webp?v=1644331344700" crossorigin="anonymous">
       <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
@@ -93,7 +113,7 @@
 
     <a-entity
       id="cameraRig"
-      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      simple-navmesh-constraint="navmesh:.navmesh;height:0;exclude:.navmesh-hole;"
       movement-controls="speed:0.15;camera:#head;"
       position="-1 0 1" rotation="0 45 0" origin-on-ar-start
     >
@@ -151,7 +171,7 @@
 
         <!-- The direction hands are facing, we will also attach labels to show the currently detected pose or controller button -->
         <!-- These also do teleportaion for Blink controls in VR -->
-        <a-entity id="hand" laser-controls link-controls="hand: right" raycaster="objects: .clickable [link]"></a-entity>
+        <a-entity id="hand" laser-controls raycaster="objects: .clickable"></a-entity>
         <a-entity data-right="ray" mixin="blink" html-pointer="" raycaster="objects:[html];far:0.3;showLine:false;lineColor:black;">
           <a-entity position="0 0 -0.22" visible="false" class="pose-label" text="value: Hello World; align: center;"></a-entity>
         </a-entity>
@@ -195,9 +215,10 @@
     <a-entity ar-shadow-helper="target:#my-ar-objects;light:#dirlight;" visible="false">
       <a-plane rotation="-90 0 0" shadow="cast:false;receive:true;" position="0 0.01 0" material="shader:shadow; depthWrite:false; opacity:0.9;"></a-plane>
     </a-entity>
-
-    <a-entity hide-on-enter-ar position="0 -0.2 0" environment="lighting:none;shadow:true;preset: osiris;"></a-entity>
-		<a-entity rotation="0 -50 0" position="0 0 0" hide-on-enter-ar>
+    <!-- geomtery merger -->
+    <!-- Environment presets -->
+    <a-entity id="env" hide-on-enter-ar position="0 -0.2 0" environment="lighting:none;shadow:true;preset: osiris;"></a-entity>
+		<a-entity id="ground-floor" rotation="0 -50 0" position="0 0 0" geometry-merger="preserveOriginal: false" hide-on-enter-ar>
       <a-box 
         position="-5.148 -0.1 -0.355"
         visible="false"
@@ -234,6 +255,8 @@
       </a-gltf-model>
       
       <a-gltf-model id="clock" shadow="receive:true;" src="#clock-gltf" position="-5 0 1.8" rotation="0 51 0" physx-body-from-model="type:dynamic;mass:15;"></a-gltf-model>
+      
+
       <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>
       <a-gltf-model src="#building-glb"
         id="building"
@@ -244,7 +267,7 @@
         shadow="cast:false;receive:true;"
       ></a-gltf-model>
 
-      <a-gltf-model class="navmesh" rotation="180 0 180" position = "1.5 2.5 -11.6" src="assets/apartment_patched.glb" visible="false"></a-gltf-model>
+      <a-gltf-model class="navmesh" rotation="180 0 180" position = "1.5 2.5 -11.6" src="#spiral_mesh" visible="false"></a-gltf-model>
       <a-gltf-model src="#spiral-glb"
         id="spiral"
         rotation="180 0 180"
@@ -254,8 +277,8 @@
         shadow="cast:false;receive:true;"
       ></a-gltf-model>
 
-      <a-gltf-model class="navmesh" rotation="0 90 0" position = "-16 7.7 -10" scale="0.5 0.5 0.5" src="assets/scifi_maincontrols_mesh.glb" visible="false"></a-gltf-model>
-      <a-gltf-model src="assets/scifi_maincontrols.glb"
+      <a-gltf-model class="navmesh" rotation="0 90 0" position = "-16 7.7 -10" scale="0.5 0.5 0.5" src="#scifi_maincontrols_mesh" visible="false"></a-gltf-model>
+      <a-gltf-model src="#scifi_maincontrols"
         id="scifi-main"
         rotation="0 90 0"
         position = "-16 7.7 -10"
@@ -264,19 +287,20 @@
         no-tonemapping="Light"
         shadow="cast:false;receive:true;"
       ></a-gltf-model>
-
-      <a-gltf-model class="navmesh" position = "-1.43 3 -16.9" scale="0.5 0.5 0.5" src="assets/sky_corridor_navmesh.glb" visible="false"></a-gltf-model>
-      <a-gltf-model src="assets/scifi-corridor_sky_palace.glb"
+<!-- Performance issues -->
+      <!-- <a-gltf-model class="navmesh" position = "-1.43 3 -16.9" scale="0.5 0.5 0.5" src="#scifi_skycorridor_mesh" visible="false"></a-gltf-model> -->
+      <!-- <a-gltf-model src="#scifi_skycorridor"
         id="sky-palace"
         position = "-1.43 3 -16.9"
         scale="0.5 0.5 0.5"
         lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
         no-tonemapping="Light"
         shadow="cast:false;receive:true;"
-      ></a-gltf-model>
+        visible="false"
+      ></a-gltf-model> -->
 
-      <a-gltf-model class="navmesh" position = "-7.95 0.833 -49.77" scale="0.02 0.02 0.02" src="assets/art_gallery_2floor_mesh.glb" visible="false"></a-gltf-model>
-      <a-gltf-model src="assets/art_gallery_showroom_2floor.glb"
+      <a-gltf-model class="navmesh" position = "-7.95 0.833 -49.77" scale="0.02 0.02 0.02" src="#twofloor_gallery_mesh" visible="false"></a-gltf-model>
+      <a-gltf-model src="#twofloor_gallery"
         id="gallery-2"
         position = "-7.95 0.84 -49.77"
         scale="0.02 0.02 0.02"
@@ -285,60 +309,130 @@
         shadow="cast:false;receive:true;"
       ></a-gltf-model>
 
+      <!-- <a-gltf-model id="liftmesh" 
+      animation__position="property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:14.45 0.45 -0.86; to: 14.45 5 -0.86; loop: true"
+      class="navmesh" rotation="0 90 0" position="14.45 0.45 -0.86" scale="0.3 0.3 0.3"scale="0.02 0.02 0.02" src="#lift_mesh" visible="true"></a-gltf-model> -->
+      
+      <a-box position="-1.657 0.893 0.421" width="0.2" height="0.2" depth="0.2" color="grey"
+          animation__press="startEvents:press;property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:14.45 0.45 -0.86; to: 14.45 5 -0.86; loop: false"
+          animation__release="startEvents:release;property: position; dur: 3000; easing: easeInOutSine; dir: alternate; from:14.45 0.45 -0.86; to: 14.45 5 -0.86; loop: true"
+      >
+        <a-entity position="0 0.12 0" linear-constraint="target:[data-no-magnet];axis:0 1 0;min:0;max:0.18;radius:0.1;useFixedValueIfOutOfRange:true;valueIfOutOfRange:0.18;downEventName:press;downEventThreshold:0;upEventName:release;upEventThreshold:0.18;">
+          <a-cylinder radius="0.09" height="0.2" position="0 -0.1 0" color="hotpink"></a-cylinder>
+        </a-entity>
+      </a-box>
+
+      <!-- <a-sphere position="-1 1 3" radius="0.25" color="#EF2D5E" origin = "false" sphere1></a-sphere>
+      <a-box id="target" material="color: green"></a-box> -->
+
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
 
-      <a-box id="metamask_btn" class="clickable" metamask-link='' scale="0.05 0.1 1" depth="0.05" width="4.4" height="3.2" position="-15.57 6.84 -10" rotation="62 -90 0" src="assets/MetaMask_Fox.svg"></a-box>
-      <!-- <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="2 1 0" rotation="0 0 0" src="https://i.seadn.io/gcs/files/2cf5f8e41bf0fe223e95184e98feff2d.png?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
-      <a-box id="nft-link" class="clickable" scale="0.05 0.1 1" depth="0.05" width="15.4" height="20.2" position="3 1 0" rotation="0 0 0" src="https://i.seadn.io/gae/-0YEWuGk89n6TLwtDwfuR9B2Vi0HuHMhzzaCHFL1ic6vELnuZQI723go3uFRhTYdhoaKAKHYg5SLJoCEGB4cJzj0OsfQZTUqxVcAzsQ?auto=format&dpr=1&w=1000" nft-link='link:https://opensea.io/assets/ethereum/0xe987e9b07ca431fe0c7e8f431fa4f94ab9ca2423/1497'></a-box>
-   -->    
-      <a-box id="nftImage1" class="clickable"  text="width: 4; value: This text will be 4 units wide."scale="0.09 0.12 1" depth="0.05" width="15.4" height="20.2" position="2.435 4.039 -6.8" rotation="8.4 0 0" src="http://localhost:8080/api/v1/nft/1/3/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/1/3/openseaurl'></a-box>
-      <a-box id="nftImage2" class="clickable" scale="-0.38 0.59 1" depth="0.05" width="15.4" height="20.2" position="7.721 6.18 -7.178" rotation="0 90 0" src="https://openseauserdata.com/files/c6aa0042673fd46264c553714ea711fe.mp4" nft-link='link:https://opensea.io/assets/ethereum/0xb932a70a57673d89f4acffbe830e8ed7f75fb9e0/40055'></a-box>
-      <a-box id="nftImage3" class="clickable" scale="-0.12 0.06 1" depth="0.05" width="15.4" height="20.2" position="-0.41 3.579 -50.15" rotation="0 90 0" src="http://localhost:8080/api/v1/nft/2/1/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/1/openseaurl'></a-box>
-      <a-box id="nftImage4" class="clickable" scale="0.08 0.09 1" depth="0.05" width="15.4" height="20.2" position="-2.65 3.593 -57.58" rotation="0 0 0" src="http://localhost:8080/api/v1/nft/2/2/imageUrl" nft-link='link:http://localhost:8080/api/v1/nft/2/2/openseaurl'></a-box>
+      <!-- <a-entity laser-controls="hand: left"></a-entity> -->
 
-      <a-text position="2.435 5.5 -6.8" rotation="0 180 0" value="Id: 3" font = "dejavu" color="blue" align="center"></a-text>
-      <a-text position="7.721 13.29 -7.178" rotation="0 -90 0" value="Id: 4" color="#f91a1a" align="center"></a-text>
-      <a-text position="0 5.429 -5.597" value="Room 1" color="#646473" align="center"></a-text>
-      <a-text position="-1.38 5.68 -13.78" rotation="20 0 0"font="dejavu" value="Path to Room 2" color="#847943" align="center"></a-text>
-      <a-box id="owner_btn" class="clickable" scale="0.05 0.1 1" depth="0.05" width="4.4" height="3.2" position="-15.2 6.741 -9.274" rotation="-66 138.6 0" src="assets/admin.jpg" link="href: owner.html"></a-box>
+      <!-- <a-entity
+        position="-2 1 3"
+        geometry="primitive: box"
+        material="color: red"
+        animation__mouseenter="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500";
+        animation__mouseleave="property: components.material.material.color; type: color; to: red; startEvents: mouseleave; dur: 500";>
+      </a-entity>
+
+      <a-box position='0 0 -3', color='green', change-color-on-click='' ></a-box> -->
 
 
     </a-entity>
+    
+    <!-- <a-box id="floor-30" floor="0" position='8.5 2 7.5', color='green', change-posi-on-click='' ></a-box> -->
+
+<!--     <a-box id="floor-40" floor="0" position='8.5 3.2 7.5', color='green', change-posi-40='' ></a-box> -->
+
+<!-- <a-entity id="hand" laser-controls raycaster="objects: .clickable"></a-entity> -->
+
+    <a-entity class="clickable" id="floor-40" floor="0" change-posi-40='' position='8.5 5.2 7.4' animation__rotate_scifi = "property: rotation; dur: 8000; easing: linear; dir: normal; from:0 0 0; to: 0 360 0; loop: true">
+    <a-gltf-model src="assets/scifi_levels_compressed.glb"
+
+          position="0.4 0 1.1"
+          scale="0.015 0.015 0.015"
+          
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+    ></a-gltf-model>
+    </a-entity>
+    <a-gltf-model src="assets/artgallery_compressed.glb"
+          id="floor-30" floor="0" position='8.5 2 7.5' class="clickable"
+          scale="0.1 0.1 0.1"
+          change-posi-on-click=''
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          animation__rotate = "property: rotation; dur: 8000; easing: linear; dir: normal; from:0 0 0; to: 0 360 0; loop: true"
+    ></a-gltf-model>
+
+    <a-gltf-model src="assets/virtual_show_room_compressed.glb"
+          id="floor-50" floor="0" position='8.5 3.5 7.5' class="clickable"
+          scale="0.25 0.25 0.25"
+          change-posi-50=''
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          animation__rotate = "property: rotation; dur: 8000; easing: linear; dir: normal; from:0 0 0; to: 0 360 0; loop: true"
+    ></a-gltf-model>
+
+    <a-gltf-model src="#capsule_lift"
+          animation-mixer="clip:doors animation"
+          id="capsule-lift"
+          position="9 1 10.5"
+          rotation="0 -45 0"
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+    ></a-gltf-model>
+
+    <a-gltf-model src="#animated_gallery"
+          animation-mixer="clip:Take 001"
+          id="animated-gallery"
+          position = "-3.57 30 -3.3"
+          rotation="0 -50 0"
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          visible="false"
+    ></a-gltf-model>
+
+    <a-gltf-model class="navmesh" position="24.4 42.526 87" src="assets/sci_fi_level_design_lobby_mesh.glb" visible="false"></a-gltf-model>
+    <a-gltf-model src="assets/sci_fi_level_design_lobby.glb"
+          id="scifi-lobby"
+          position="24.4 42.526 87"
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          visible="false"
+    ></a-gltf-model>
+
+    <a-gltf-model class="navmesh" scale="3 3 3" position="-5.5 52.2 7.2" src="assets/virtual_showroom_mesh.glb" visible="false"></a-gltf-model>
+<!--     <a-gltf-model class="navmesh" src="#animated_gallery_mesh" position = "5.5 50 7.2" visible="true"></a-gltf-model> -->
+    <a-gltf-model src="assets/virtual_show_room.glb"
+          id="galaxy_showroom"
+          position="-5.5 50.7 7.2"
+          scale="3 3 3"
+          lightmap="src:#bake;intensity: 1.5; filter:Window,Ceiling,floor;"
+          no-tonemapping="Light"
+          shadow="cast:false;receive:true;"
+          visible="false"
+    ></a-gltf-model>
+
+    <a-entity id="next floor" rotation="0 -50 0" position="0 0 0" geometry-merger="preserveOriginal: false" hide-on-enter-ar>
+
+      <!-- test mesh -->
+      <a-gltf-model class="navmesh" src="#navmesh-glb" position = "0 15 0" visible="false"></a-gltf-model>
+
+      <a-gltf-model class="navmesh" src="#animated_gallery_mesh" position = "-5 30 0.70" visible="false"></a-gltf-model>
+
+    </a-entity>
+
 
 	</a-scene>
-  <script>
-    // Define a function that takes an image element id and an image id as parameters
-  function loadImage(imageElementId, roomid, imageId) {
-    // Get the image element by id
-    const imageElement = document.getElementById(imageElementId);
-    console.log(imageElement);
-    // Construct the URL that returns the image URL as a string using the image id
-    const imageUrl = `http://localhost:8080/api/v1/nft/${roomid}/${imageId}/imageUrl`;
-    const openSeaUrl = `http://localhost:8080/api/v1/nft/${roomid}/${imageId}/openSeaUrl`;
-    // Fetch the URL and set the src attribute of the image element
-    fetch(imageUrl)
-      .then((response) => response.text())
-      .then((imageUrl) => {
-        imageUrl = imageUrl.replace(/"/g, "");
-        imageElement.setAttribute("src",imageUrl);
-      })
-      .catch((error) => console.error(error));
-    fetch(openSeaUrl)
-      .then((response) => response.text())
-      .then((openSeaUrl) => {
-        openSeaUrl = openSeaUrl.replace(/"/g, "");
-        imageElement.setAttribute("nft-link", "link:" + openSeaUrl);
-      })
-      .catch((error) => console.error(error));
-      console.log(imageElement);
-  }
-
-  // Call the function for each image element and image id
-  loadImage("nftImage1", 1,3);
-  //loadImage("nftImage2", 1,3);
-  loadImage("nftImage3", 2,1);
-  loadImage("nftImage4", 2,2);
-  </script>
 
 	<div id="dom-overlay">
     <h1>
