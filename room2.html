@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Room 2</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        margin-top: 20px;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      .form-control {
+        width: 80%;
+      }
+      .btn {
+        width: 20%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Room 2</h1>
+      <p>Enter the details of your NFTs:</p>
+      <!-- Added a form with two inputs for each NFT -->
+      <form id="nftForm">
+        <div class="form-group">
+            <label for="nftImageId">Image ID:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="nftImageId"
+              name="nftImageId"
+              placeholder="Enter the image ID"
+              required
+            />
+        </div>
+        <div class="form-group">
+          <label for="nft1Link">NFT OpenSea Link:</label>
+          <input
+            type="url"
+            class="form-control"
+            id="nft1Link"
+            name="nft1Link"
+            placeholder="Enter the link to your NFT on OpenSea"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="nft1Image">NFT Image Link:</label>
+          <input
+            type="url"
+            class="form-control"
+            id="nft1Image"
+            name="nft1Image"
+            placeholder="Enter the link to your NFT image on OpenSea"
+            required
+          />
+        </div>
+        <!-- <div class="form-group">
+          <label for="nft2Link">NFT 2 OpenSea Link:</label>
+          <input
+            type="url"
+            class="form-control"
+            id="nft2Link"
+            name="nft2Link"
+            placeholder="Enter the link to your NFT on OpenSea"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="nft2Image">NFT 2 Image Link:</label>
+          <input
+            type="url"
+            class="form-control"
+            id="nft2Image"
+            name="nft2Image"
+            placeholder="Enter the link to your NFT image on OpenSea"
+            required
+          />
+        </div> -->
+        <!-- Added a submit button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <!-- Added a script to handle the form submission and save the data to the database -->
+    <!-- Import mongoose module -->
+    <script>
+
+const nftForm = document.getElementById("nftForm");
+
+nftForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+
+  const data = {
+    roomId: "2",
+    imageId: formData.get("nftImageId"),
+    ownerId: "metamaskaddress",
+    imageUrl: formData.get("nft1Image"),
+    openSeaUrl: formData.get("nft1Link")
+  };
+
+  const response = await fetch("http://localhost:8080/api/v1/add-nft", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (response.ok) {
+    console.log("NFT added successfully!");
+  } else {
+    console.error("Failed to add NFT.");
+  }
+});
+        
+    </script>
+  </body>
+</html>
+
