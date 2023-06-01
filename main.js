@@ -1,5 +1,14 @@
 /* jshint esversion: 9 */
 /* global THREE, AFRAME */
+AFRAME.registerComponent('metamask-link', {
+  // Could use a schem to preserve the color! then simply change it on update
+  // if clicked?
+  init: function () {
+  this.el.addEventListener('click', function (evt) {
+  console.log('I was clicked at: ', evt.detail.intersection.point);
+  });
+  }
+  });
 
 AFRAME.registerComponent("hide-on-hit-test-start", {
   init: function() {
