@@ -18,6 +18,7 @@ To run the application locally, you need to have VS Code and Live Server extensi
 3. Copy the .pem and .key files from the project folder to your C:// drive. These files are self-signed certificates that enable HTTPS for the application.
 4. Open your browser and go to https://localhost:5501 to see the application. You may need to accept the security warning to proceed.
 5. If any issues , Go to chrome://flags/#allow-insecure-localhost and click on enable
+6. clone https://github.com/himanshu2406/metaverse-backend and npm start
 
 ### Adding and Buying NFTs
 
